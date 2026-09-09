@@ -1,0 +1,1702 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bộ câu hỏi trắc nghiệm — 2025</title>
+
+  <!-- ========= MATHJAX ========= -->
+  <script>
+    window.MathJax = {
+      tex: {inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']]},
+      svg: {fontCache: 'global'}
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <!-- ========= HẾT MATHJAX ========= -->
+
+  <!-- ========= INLINE CSS (Glassmorphism theme) ========= -->
+  <style>
+    :root{
+      /* Nền gradient đa sắc + “kính” trong suốt */
+      --bg1:#0ea5e9;    /* cyan */
+      --bg2:#7c3aed;    /* purple */
+      --bg3:#22c55e;    /* green accent */
+      --glass:rgba(255,255,255,.16);
+      --glass-strong:rgba(255,255,255,.22);
+      --glass-stroke:rgba(255,255,255,.35);
+      --glow:0 8px 30px rgba(0,0,0,.20), 0 0 30px rgba(255,255,255,.06);
+      --text:#f8fafc;
+      --muted:#e2e8f0;
+      --pill:rgba(255,255,255,.20);
+      --pill-stroke:rgba(255,255,255,.45);
+      --brand:#22d3ee;         /* cyan sáng */
+      --brand-soft:#a78bfa;    /* tím nhạt */
+      --accent:#38bdf8;        /* cyan nhạt */
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 800px at 80% 10%, color-mix(in oklab, var(--bg2) 55%, #000 10%) 0%, transparent 60%),
+        radial-gradient(900px 700px at 10% 90%, color-mix(in oklab, var(--bg1) 60%, #000 10%) 0%, transparent 60%),
+        linear-gradient(135deg, color-mix(in oklab, var(--bg1) 70%, #0a0f1f 30%), color-mix(in oklab, var(--bg2) 60%, #0a0f1f 40%));
+      line-height:1.55;
+      /* fallback khi không hỗ trợ blur */
+      background-color:#0b1020;
+    }
+
+    /* vùng chứa */
+    .page{max-width:min(960px,92vw);margin:24px auto 72px;padding:0 16px}
+
+    /* top brand (kính mờ) */
+    .topbar{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;
+      background:var(--glass);
+      border:1px solid var(--glass-stroke);
+      border-radius:16px;
+      padding:10px 14px;
+      box-shadow:var(--glow);
+      -webkit-backdrop-filter:saturate(160%) blur(12px);
+      backdrop-filter:saturate(160%) blur(12px);
+    }
+    .brand{display:inline-flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.02em}
+    .brand-badge{
+      width:36px;height:36px;border-radius:12px;
+      background:linear-gradient(180deg,var(--brand),var(--brand-soft));
+      display:grid;place-items:center;color:#0b1020;font-weight:900;
+      box-shadow:0 0 22px rgba(255,255,255,.2), 0 0 28px color-mix(in oklab, var(--brand) 60%, transparent);
+      border:1px solid var(--glass-stroke);
+    }
+    .brand-text{font-size:18px;color:var(--text)}
+    .brand-text b{color:var(--accent)}
+
+    /* card câu hỏi (glass) */
+    .card{
+      position:relative;
+      background:var(--glass);
+      border-radius:var(--radius);
+      padding:22px 22px 18px;
+      box-shadow:var(--glow);
+      overflow:hidden;
+      margin-top:18px;
+      border:1px solid var(--glass-stroke);
+      -webkit-backdrop-filter:saturate(160%) blur(10px);
+      backdrop-filter:saturate(160%) blur(10px);
+    }
+    .qmark{
+      position:absolute; right:12px; top:-6px;
+      width:92px; aspect-ratio:1/1;
+      background:var(--glass-strong);
+      border-radius:18px;
+      display:grid; place-items:center;
+      border:1px solid var(--glass-stroke);
+      transform:rotate(10deg);
+      box-shadow:0 6px 20px rgba(0,0,0,.25), 0 0 26px rgba(255,255,255,.15) inset;
+      font:900 56px/1.0 ui-sans-serif, system-ui; color:#0b1020;
+      -webkit-backdrop-filter:saturate(180%) blur(12px);
+      backdrop-filter:saturate(180%) blur(12px);
+      user-select:none;
+    }
+    .qno{font-weight:900;color:#e0f2fe;margin:0 0 6px}
+
+    /* hộp nội dung câu hỏi (kính nhẹ) */
+    .question-box{
+      background:var(--glass-strong); color:var(--text);
+      border-radius:14px; padding:12px 14px; margin:8px 0 12px;
+      border:1px solid var(--glass-stroke);
+      -webkit-backdrop-filter:saturate(160%) blur(8px);
+      backdrop-filter:saturate(160%) blur(8px);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.14);
+    }
+    .question-box .question{
+      margin:0;
+      color:#f8fafc;
+      font-weight:700;
+      font-size:18px;
+      text-shadow:0 0 10px rgba(255,255,255,.08);
+    }
+
+    .question{color:#f8fafc;margin:6px 0 12px;font-weight:800;font-size:22px}
+    /* Gộp style cho .meta và nút Hiện/Ẩn lời giải (.solution-toggle) */
+    .meta, .solution-toggle{
+      font-size:13px;color:#e2e8f0;background:rgba(14,165,233,.20);
+      border:1px solid rgba(125,211,252,.45);
+      border-radius:10px;padding:6px 10px;display:inline-block;margin:6px 0 12px
+    }
+    .meta b{color:#cffafe}
+    .solution-toggle{border:0;cursor:pointer;font-weight:700}
+    .solution-toggle:hover{filter:brightness(1.08)}
+    .solution-toggle[hidden]{display:none !important;} /* ẩn trước khi chọn đáp án */
+    .solution-box{margin-top:8px}
+
+    /* nhóm đáp án */
+    .choices{display:grid;gap:14px;margin-top:10px}
+    .choice{
+      width:100%;
+      border:0; cursor:pointer; text-align:left;
+      background:var(--pill); color:var(--text);
+      border-radius:999px;
+      padding:14px 16px 14px 64px;
+      font-weight:700; font-size:16px;
+      position:relative;
+      box-shadow:0 2px 0 rgba(0,0,0,.15), 0 6px 20px rgba(0,0,0,.12);
+      border:1px solid var(--pill-stroke);
+      transition:transform .05s ease, box-shadow .2s ease, opacity .15s ease, filter .2s ease;
+      -webkit-backdrop-filter:saturate(160%) blur(8px);
+      backdrop-filter:saturate(160%) blur(8px);
+    }
+    .choice:hover{transform:translateY(-1px); box-shadow:0 10px 28px rgba(0,0,0,.22)}
+    .choice:active{transform:translateY(1px)}
+    .choice .bullet{
+      position:absolute; left:12px; top:50%; translate:0 -50%;
+      width:38px; height:38px; border-radius:50%;
+      display:grid; place-items:center;
+      background:linear-gradient(180deg,var(--brand),var(--brand-soft));
+      color:#0b1020; font-weight:900; text-transform:lowercase;
+      border:1px solid var(--glass-stroke);
+      box-shadow:0 2px 0 rgba(0,0,0,.22) inset, 0 0 16px rgba(255,255,255,.18);
+    }
+    .choice.correct{outline:3px solid #22c55e}
+    .choice.wrong{outline:3px solid #ef4444}
+    .choice.disabled{pointer-events:none;opacity:.97}
+
+    .status{margin-top:12px;min-height:22px;font-weight:700;color:#f1f5f9}
+    .status small{font-weight:500;color:#e2e8f0}
+
+    /* nút lên đầu trang (kính) */
+    .to-top{
+      position:fixed; right:14px; bottom:14px; z-index:20;
+      width:42px; height:42px; border-radius:12px;
+      display:grid; place-items:center;
+      background:var(--glass); color:#0b1020; text-decoration:none;
+      font-weight:900; box-shadow:var(--glow);
+      border:1px solid var(--glass-stroke);
+      -webkit-backdrop-filter:saturate(160%) blur(10px);
+      backdrop-filter:saturate(160%) blur(10px);
+    }
+
+    /* Responsive tiers */
+    @media (max-width:600px){
+      .question-box .question{font-size:16px}
+      .page{margin:16px auto 56px;padding:0 12px}
+      .brand-text{font-size:16px}
+      .card{padding:18px 16px 14px;border-radius:16px}
+      .question{font-size:18px;margin-bottom:8px}
+      .choice{padding:12px 14px 12px 56px;font-size:15px}
+      .choice .bullet{width:34px;height:34px;left:10px}
+      .qmark{width:78px;right:6px;top:-8px}
+    }
+    @media (min-width:601px) and (max-width:900px){
+      .page{max-width:90%; padding:0 20px}
+      .brand-text{font-size:1.1rem}
+      .card{padding:20px 18px; border-radius:1rem}
+      .question{font-size:1.25rem; margin-bottom:0.6em}
+      .choice{padding:0.8em 1em 0.8em 3.5em; font-size:1rem}
+      .choice .bullet{width:2.2em; height:2.2em}
+      .qmark{width:80px; top:-10px}
+    }
+    @media (min-width:901px) and (max-width:1199px){
+      .page{max-width:78%; padding:0 22px}
+      .brand-text{font-size:1.15rem}
+      .card{padding:20px 20px; border-radius:1rem}
+      .question{font-size:1.3rem; margin-bottom:0.7em}
+      .choice{padding:0.9em 1.1em 0.9em 3.8em; font-size:1.05rem}
+      .choice .bullet{width:2.4em; height:2.4em}
+      .qmark{width:86px; top:-10px}
+    }
+    @media (min-width:1200px){
+      .page{max-width:70%; padding:0 24px}
+      .question{font-size:1.4rem}
+      .choice{font-size:1.1rem}
+    }
+  </style>
+  <!-- ========= HẾT INLINE CSS ========= -->
+</head>
+<body>
+  <div class="page">
+    <div class="topbar" aria-label="Thương hiệu">
+      <div class="brand">
+        <span class="brand-badge">AI</span>
+        <span class="brand-text"><b>BẠN</b>ĐÚNG BAO NHIÊU CÂU</span>
+      </div>
+      <span style="color:#e2e8f0;font-size:13px">Nguyễn Đức Ánh</span>
+    </div>
+
+    <div class="brand"><span class="brand-badge">?</span> <span class="brand-text">MỘT SỐ CÂU HỎI TRẮC NGHIỆM</span></div>
+
+    <!-- ========= CÂU 1 ========= -->
+    <section class="card" role="group" aria-labelledby="q1">
+      <div class="qmark">?</div>
+      <p class="qno" id="q1">Câu 1:</p>
+      <div class="question-box"><div class="question">Cho biến ngẫu nhiên rời rạc \(X\) có bảng phân phối xác suất:
+\[\begin{array}{|c|c|c|c|c|}
+\hline
+X &amp;
+-3 &amp; -2 &amp; 1 &amp; 3
+\\
+\hline
+\mathrm{P}(X=x_i) &amp;
+0{,}26 &amp; 0{,}26 &amp; 0{,}24 &amp; 0{,}24
+\\
+\hline
+\end{array}
+\] 
+Tính kỳ vọng \(EX\) và phương sai \(Var X\).</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices1">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(EX = -0{,}14; Var X= 5{,}6644\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(EX = -0{,}14; Var X= 6{,}0644\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = -0{,}34; Var X= 6{,}0644\)</button>
+        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>\(EX = -0{,}34; Var X= 5{,}6644\)</button>
+      </div>
+      <div class="status" id="status1"></div>
+
+      <div class="solution-box" id="sol1" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 2 ========= -->
+    <section class="card" role="group" aria-labelledby="q2">
+      <div class="qmark">?</div>
+      <p class="qno" id="q2">Câu 2:</p>
+      <div class="question-box"><div class="question">Thu thập mẫu về lương của công nhân ngành may thu được bảng mẫu số liệu sau
+\[\begin{array}{|c|c|c|c|c|c|c|}
+\hline
+\text{Mức lương (triệu đ/ tháng)} &amp;
+8 &amp; 9 &amp; 10 &amp; 11 &amp; 12 &amp; 13
+\\
+\hline
+\text{Số công nhân} &amp;
+16 &amp; 18 &amp; 15 &amp; 21 &amp; 15 &amp; 15
+\\
+\hline
+\end{array}
+\]
+Xét phép thử chọn ngẫu nhiên một công nhân từ bảng mẫu số công nhân trên. Gọi \(X\) là mức lương của công nhân được chọn.
+Tính xác suất \(P\left(X=8\right)\)</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices2">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(0{,}17\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(0{,}09\)</button>
+        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>\(0{,}16\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(0{,}11\)</button>
+      </div>
+      <div class="status" id="status2"></div>
+
+      <div class="solution-box" id="sol2" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 3 ========= -->
+    <section class="card" role="group" aria-labelledby="q3">
+      <div class="qmark">?</div>
+      <p class="qno" id="q3">Câu 3:</p>
+      <div class="question-box"><div class="question">Thu thập mẫu về lương của công nhân ngành may thu được bảng mẫu số liệu sau
+\[\begin{array}{|c|c|c|c|c|c|c|}
+\hline
+\text{Mức lương (triệu đ/ tháng)} &amp;
+8 &amp; 9 &amp; 10 &amp; 11 &amp; 12 &amp; 13
+\\
+\hline
+\text{Số công nhân} &amp;
+68 &amp; 60 &amp; 60 &amp; 78 &amp; 64 &amp; 70
+\\
+\hline
+\end{array}
+\]
+Xét phép thử chọn ngẫu nhiên một công nhân từ bảng mẫu số công nhân trên. Gọi \(X\) là mức lương của công nhân được chọn.
+Tính xác suất \(P\left(X=12\right)\)</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices3">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(0{,}13\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(0{,}22\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(0{,}14\)</button>
+        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>\(0{,}16\)</button>
+      </div>
+      <div class="status" id="status3"></div>
+
+      <div class="solution-box" id="sol3" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 4 ========= -->
+    <section class="card" role="group" aria-labelledby="q4">
+      <div class="qmark">?</div>
+      <p class="qno" id="q4">Câu 4:</p>
+      <div class="question-box"><div class="question">Một hộp đựng 10 quả cầu gồm: 2 quả màu đỏ, 3 quả màu vàng và 5 quả màu xanh. Chọn ngẫu nhiên từ hộp đó ra 4 quả cầu. Xác suất chọn được 2 quả màu xanh là</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices4">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,0952</button>
+        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>0,4762</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,0476</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,2894</button>
+      </div>
+      <div class="status" id="status4"></div>
+
+      <div class="solution-box" id="sol4" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 5 ========= -->
+    <section class="card" role="group" aria-labelledby="q5">
+      <div class="qmark">?</div>
+      <p class="qno" id="q5">Câu 5:</p>
+      <div class="question-box"><div class="question">Rút ngẫu nhiên 5 lá bài từ một bộ bài tây 52 lá. Tính xác suất để rút được đúng 2 lá rô</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices5">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,36705</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,20428</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,30705</button>
+        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>0,27428</button>
+      </div>
+      <div class="status" id="status5"></div>
+
+      <div class="solution-box" id="sol5" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 6 ========= -->
+    <section class="card" role="group" aria-labelledby="q6">
+      <div class="qmark">?</div>
+      <p class="qno" id="q6">Câu 6:</p>
+      <div class="question-box"><div class="question">Ba người lần lượt bắn đạn vào bia. Mỗi người bắn một phát. Xác suất bắn trúng của mỗi người lần lượt là 0,5; 0,6; 0,7. Tính xác suất để cả ba người cùng bắn trúng bia.</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices6">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,290</button>
+        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>0,210</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,940</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,060</button>
+      </div>
+      <div class="status" id="status6"></div>
+
+      <div class="solution-box" id="sol6" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 7 ========= -->
+    <section class="card" role="group" aria-labelledby="q7">
+      <div class="qmark">?</div>
+      <p class="qno" id="q7">Câu 7:</p>
+      <div class="question-box"><div class="question">Trong kho có 100 sản phẩm, trong đó có 20 sản phấm xấu, còn lại là sản phẩm tốt. Rút ngẫu nhiên ra 6 sản phẩm. Tính xác suất để rút được 2 sản phẩm tốt.</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices7">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,25209</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,65542</button>
+        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>0,01284</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,34458</button>
+      </div>
+      <div class="status" id="status7"></div>
+
+      <div class="solution-box" id="sol7" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 8 ========= -->
+    <section class="card" role="group" aria-labelledby="q8">
+      <div class="qmark">?</div>
+      <p class="qno" id="q8">Câu 8:</p>
+      <div class="question-box"><div class="question">Một lớp học có 30 sinh viên, trong đó có 5 em giỏi, 10 em khá và 10 em trung bình, còn lại là sinh viên yếu. Chọn ngẫu nhiên 3 em trong lớp. Tính xác suất để cả 3 em đều là sinh viên yếu.</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices8">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,43350</button>
+        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>0,00246</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,56650</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,16364</button>
+      </div>
+      <div class="status" id="status8"></div>
+
+      <div class="solution-box" id="sol8" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 9 ========= -->
+    <section class="card" role="group" aria-labelledby="q9">
+      <div class="qmark">?</div>
+      <p class="qno" id="q9">Câu 9:</p>
+      <div class="question-box"><div class="question">Một kiện hàng có 6 sản phẩm tốt và 4 phế phẩm. Chọn ngẫu nhiên từ kiện hàng đó ra 2 sản phẩm. Gọi X là số phế phẩm trong hai sản phẩm chọn ra.
+Tính P(X=1)</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices9">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(\dfrac{1}{3}\)</button>
+        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>\(\dfrac{8}{{15}}\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(\dfrac{2}{{15}}\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(\dfrac{1}{{15}}\)</button>
+      </div>
+      <div class="status" id="status9"></div>
+
+      <div class="solution-box" id="sol9" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 10 ========= -->
+    <section class="card" role="group" aria-labelledby="q10">
+      <div class="qmark">?</div>
+      <p class="qno" id="q10">Câu 10:</p>
+      <div class="question-box"><div class="question">Tung một con xúc xắc cân đối đồng chất. Xác suất để mặt có số chấm chẵn xuất hiện là</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices10">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>1</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,2</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,3</button>
+        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>0,5</button>
+      </div>
+      <div class="status" id="status10"></div>
+
+      <div class="solution-box" id="sol10" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 11 ========= -->
+    <section class="card" role="group" aria-labelledby="q11">
+      <div class="qmark">?</div>
+      <p class="qno" id="q11">Câu 11:</p>
+      <div class="question-box"><div class="question">Tung một con xúc xắc cân đối đồng chất, xác suất để mặt có số chấm chia hết cho 3 xuất hiện là</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices11">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,66667</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>1</button>
+        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>0,33333</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,50000</button>
+      </div>
+      <div class="status" id="status11"></div>
+
+      <div class="solution-box" id="sol11" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 12 ========= -->
+    <section class="card" role="group" aria-labelledby="q12">
+      <div class="qmark">?</div>
+      <p class="qno" id="q12">Câu 12:</p>
+      <div class="question-box"><div class="question">Có 5 hộp quà ngoài giống hệt nhau, tuy nhiên chỉ có 2 hộp có quà còn lại 3 hộp rỗng. Một người chọn ngẫu nhiên một hộp. Xác suất để người đó chọn trúng hộp KHÔNG có quà là</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices12">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>2</button>
+        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>0,6</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,4</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>3</button>
+      </div>
+      <div class="status" id="status12"></div>
+
+      <div class="solution-box" id="sol12" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 13 ========= -->
+    <section class="card" role="group" aria-labelledby="q13">
+      <div class="qmark">?</div>
+      <p class="qno" id="q13">Câu 13:</p>
+      <div class="question-box"><div class="question">Rút ngẫu nhiên 5 lá bài từ một bộ bài tây 52 lá. Tính xác suất để rút được ít nhất 1 lá rô</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices13">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,87847</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,97847</button>
+        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>0,77847</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,89847</button>
+      </div>
+      <div class="status" id="status13"></div>
+
+      <div class="solution-box" id="sol13" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 14 ========= -->
+    <section class="card" role="group" aria-labelledby="q14">
+      <div class="qmark">?</div>
+      <p class="qno" id="q14">Câu 14:</p>
+      <div class="question-box"><div class="question">Ba người lần lượt bắn đạn vào bia. Mỗi người bắn một phát. Xác suất bắn trúng của mỗi người lần lượt là 0,5; 0,6; 0,7. Tính xác suất để có ít nhất một người bắn trúng bia.</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices14">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,745</button>
+        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>0,940</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,403</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,350</button>
+      </div>
+      <div class="status" id="status14"></div>
+
+      <div class="solution-box" id="sol14" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 15 ========= -->
+    <section class="card" role="group" aria-labelledby="q15">
+      <div class="qmark">?</div>
+      <p class="qno" id="q15">Câu 15:</p>
+      <div class="question-box"><div class="question">Trong kho có 100 sản phẩm, trong đó có 20 sản phấm xấu, còn lại là sản phẩm tốt. Rút ngẫu nhiên ra 6 sản phẩm. Tính xác suất để rút được ít nhất 2 sản phẩm tốt.</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices15">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,81890</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,79896</button>
+        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>0,99893</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,73892</button>
+      </div>
+      <div class="status" id="status15"></div>
+
+      <div class="solution-box" id="sol15" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 16 ========= -->
+    <section class="card" role="group" aria-labelledby="q16">
+      <div class="qmark">?</div>
+      <p class="qno" id="q16">Câu 16:</p>
+      <div class="question-box"><div class="question">Một công ti cần tuyển 2 nhân viên. Có 5 người nữ và 10 người nam nộp đơn ngẫu nhiên (khả năng trúng tuyển của mỗi người là như nhau). Tính xác suất để có ít nhất một nữ người trúng tuyển?</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices16">
+        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>0,57143</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,34561</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,24146</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,66143</button>
+      </div>
+      <div class="status" id="status16"></div>
+
+      <div class="solution-box" id="sol16" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 17 ========= -->
+    <section class="card" role="group" aria-labelledby="q17">
+      <div class="qmark">?</div>
+      <p class="qno" id="q17">Câu 17:</p>
+      <div class="question-box"><div class="question">Cho biến ngẫu nhiên rời rạc X có bảng phân phối xác suất:
+\[\begin{array}{|c|c|c|c|c|c|}
+\hline
+X&amp;  -1&amp;  0 &amp; 2 &amp; 4 &amp; 5 \\
+\hline
+\mathrm{p}(X=x_i)&amp;   0{,}15 &amp;0{,}10&amp;  0{,}45 &amp; 0{,}05 &amp; 0{,}25 \\
+\hline
+\end{array}\]
+Giá trị của
+ \(P\left[(-1 &lt; X \leq 2) \cup (X = 5)\right]\) là</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices17">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,6</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,7</button>
+        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>0,8</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,9</button>
+      </div>
+      <div class="status" id="status17"></div>
+
+      <div class="solution-box" id="sol17" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 18 ========= -->
+    <section class="card" role="group" aria-labelledby="q18">
+      <div class="qmark">?</div>
+      <p class="qno" id="q18">Câu 18:</p>
+      <div class="question-box"><div class="question">Cho biến ngẫu nhiên rời rạc X có bảng phân phối xác suất:
+\[\begin{array}{|c|c|c|c|c|c|}
+\hline
+X&amp;  -1&amp;  0 &amp; 1 &amp; 3 &amp;5 \\
+\hline
+\mathrm{p}(X=x_i)&amp;   3a &amp; a &amp;  0{,}1 &amp; 2a &amp; 0{,}3  \\
+\hline
+\end{array}\]
+Tính \(\mathrm{p}\left(X^2=1\right)\)</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices18">
+        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>\(\mathrm{p}\left(X^2=1\right)=0{,}4\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(\mathrm{p}\left(X^2=1\right)=0{,}2\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(\mathrm{p}\left(X^2=1\right)=0{,}1\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(\mathrm{p}\left(X^2=1\right)=0{,}3\)</button>
+      </div>
+      <div class="status" id="status18"></div>
+
+      <div class="solution-box" id="sol18" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 19 ========= -->
+    <section class="card" role="group" aria-labelledby="q19">
+      <div class="qmark">?</div>
+      <p class="qno" id="q19">Câu 19:</p>
+      <div class="question-box"><div class="question">Một cửa hàng bán một chiếc máy lạnh A thì lời 850 000 đồng nhưng nếu chiếc máy lạnh đó phải bảo hành thì lỗ 1000 000 đồng. Biết xác suất máy lạnh A của cửa hàng phải bảo hành là p = 20%. Tính mức lời trung bình khi bán một chiếc máy lạnh A.</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices19">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>650 000</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>500 000</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>520 000</button>
+        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>480 000</button>
+      </div>
+      <div class="status" id="status19"></div>
+
+      <div class="solution-box" id="sol19" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 20 ========= -->
+    <section class="card" role="group" aria-labelledby="q20">
+      <div class="qmark">?</div>
+      <p class="qno" id="q20">Câu 20:</p>
+      <div class="question-box"><div class="question">Cho biến ngẫu nhiên rời rạc X có bảng phân phối xác suất:
+\[\begin{array}{|c|c|c|c|c|c|}
+\hline
+X&amp;  1&amp;  2 &amp; 4 &amp; 5 &amp;7 \\
+\hline
+\mathrm{p}(X=x_i)&amp;   a &amp; 0{,}3 &amp; b &amp; 0{,}2 &amp; 0{,}1  \\
+\hline
+\end{array}\]
+Tìm giá trị của tham số   \(a, b\) để \(EX=3{,}15\).</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices20">
+        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>\(a=0{,}25; b = 0{,}15\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(a=0{,}15; b = 0{,}25\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(a=0{,}05; b = 0{,}25\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(a=0{,}05; b = 0{,}15\)</button>
+      </div>
+      <div class="status" id="status20"></div>
+
+      <div class="solution-box" id="sol20" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 21 ========= -->
+    <section class="card" role="group" aria-labelledby="q21">
+      <div class="qmark">?</div>
+      <p class="qno" id="q21">Câu 21:</p>
+      <div class="question-box"><div class="question">Cho biến ngẫu nhiên rời rạc X có bảng phân phối xác suất:
+\[\begin{array}{|c|c|c|c|c|c|}
+\hline
+X&amp;  -1&amp;  0 &amp; 1 &amp; 3 &amp;5 \\
+\hline
+\mathrm{p}(X=x_i)&amp;   4a &amp; a &amp;  0{,}1 &amp; 5a &amp; 0{,}3  \\
+\hline
+\end{array}\]
+Tính kỳ vọng  \(EX\)</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices21">
+        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>\(EX = 2{,}26\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(EX = 1{,}26\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = 2{,}56\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(EX = 2{,}06\)</button>
+      </div>
+      <div class="status" id="status21"></div>
+
+      <div class="solution-box" id="sol21" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 22 ========= -->
+    <section class="card" role="group" aria-labelledby="q22">
+      <div class="qmark">?</div>
+      <p class="qno" id="q22">Câu 22:</p>
+      <div class="question-box"><div class="question">Một lô hàng gồm 10 sản phẩm tốt và 2 phế phẩm. Lấy ngẫu nhiên 4 sản phẩm từ lô hàng đó. Gọi X là số sản phẩm tốt trong 4 sản phẩm lấy ra. Tính kỳ vọng của X</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices22">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(EX = \dfrac{20}{3}\)</button>
+        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>\(EX = \dfrac{10}{3}\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = \dfrac{16}{3}\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(EX = \dfrac{13}{3}\)</button>
+      </div>
+      <div class="status" id="status22"></div>
+
+      <div class="solution-box" id="sol22" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 23 ========= -->
+    <section class="card" role="group" aria-labelledby="q23">
+      <div class="qmark">?</div>
+      <p class="qno" id="q23">Câu 23:</p>
+      <div class="question-box"><div class="question">Một người có 3 viên đạn. Người đó bắn lần lượt từng viên vào bia cho đến khi hết đạn, xác suất bắn trúng mỗi viên là 0,5. Gọi X là số viên đạn bắn trúng bia. Tính xác suất p(X=3)</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices23">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,115</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,145</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,251</button>
+        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>0,125</button>
+      </div>
+      <div class="status" id="status23"></div>
+
+      <div class="solution-box" id="sol23" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 24 ========= -->
+    <section class="card" role="group" aria-labelledby="q24">
+      <div class="qmark">?</div>
+      <p class="qno" id="q24">Câu 24:</p>
+      <div class="question-box"><div class="question">Cho biến ngẫu nhiên rời rạc X có bảng phân phối xác suất:
+\[\begin{array}{|c|c|c|c|c|c|}
+\hline
+X&amp;  -1&amp;  0 &amp; 1 &amp; 3 &amp;5 \\
+\hline
+\mathrm{p}(X=x_i)&amp;   4a &amp; a &amp;  0{,}1 &amp; 5a &amp; 0{,}3  \\
+\hline
+\end{array}\]
+Tính xác suất \(P(X=0)\)</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices24">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(P(X=0) =  0{,}16\)</button>
+        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>\(P(X=0) =  0{,}06\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(P(X=0) =  0{,}26\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(P(X=0) =  0{,}36\)</button>
+      </div>
+      <div class="status" id="status24"></div>
+
+      <div class="solution-box" id="sol24" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 25 ========= -->
+    <section class="card" role="group" aria-labelledby="q25">
+      <div class="qmark">?</div>
+      <p class="qno" id="q25">Câu 25:</p>
+      <div class="question-box"><div class="question">Cho biến ngẫu nhiên rời rạc X có bảng phân phối xác suất:
+\[\begin{array}{|c|c|c|c|c|c|}
+\hline
+X&amp;  -1&amp;  0 &amp; 1 &amp; 3 &amp;5 \\
+\hline
+\mathrm{p}(X=x_i)&amp;   4a &amp; a &amp;  0{,}1 &amp; 5a &amp; 0{,}3  \\
+\hline
+\end{array}\]
+Tính xác suất \(P(X\leq 0)\)</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices25">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(P(X \leq 0) =  0{,}1\)</button>
+        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>\(P(X \leq 0) =  0{,}3\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(P(X \leq 0) =  0{,}13\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(P(X \leq 0) =  0{,}06\)</button>
+      </div>
+      <div class="status" id="status25"></div>
+
+      <div class="solution-box" id="sol25" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 26 ========= -->
+    <section class="card" role="group" aria-labelledby="q26">
+      <div class="qmark">?</div>
+      <p class="qno" id="q26">Câu 26:</p>
+      <div class="question-box"><div class="question">Cho biến ngẫu nhiên rời rạc X có bảng phân phối xác suất:
+\[\begin{array}{|c|c|c|c|c|c|}
+\hline
+X&amp;  -1&amp;  0 &amp; 1 &amp; 3 &amp;5 \\
+\hline
+\mathrm{p}(X=x_i)&amp;   4a &amp; a &amp;  0{,}1 &amp; 5a &amp; 0{,}3  \\
+\hline
+\end{array}\]
+Tính xác suất \(P(X^2=1)\)</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices26">
+        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>\(P(X^2=1) = 0{,}34\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(P(X^2=1) = 0{,}24\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(P(X^2=1) = 0{,}64\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(P(X^2=1) = 0{,}06\)</button>
+      </div>
+      <div class="status" id="status26"></div>
+
+      <div class="solution-box" id="sol26" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 27 ========= -->
+    <section class="card" role="group" aria-labelledby="q27">
+      <div class="qmark">?</div>
+      <p class="qno" id="q27">Câu 27:</p>
+      <div class="question-box"><div class="question">Một hộp bi có gồm 10 bi đỏ và 2 bi xanh. Lấy ngẫu nhiên 3 bi từ hộp đó. Gọi X là số bi đỏ trong 3 bi lấy ra. Tính kỳ vọng của X.</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices27">
+        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>\(EX = \dfrac{5}{2}\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(EX = \dfrac{5}{3}\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = \dfrac{10}{3}\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(EX = \dfrac{4}{3}\)</button>
+      </div>
+      <div class="status" id="status27"></div>
+
+      <div class="solution-box" id="sol27" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 28 ========= -->
+    <section class="card" role="group" aria-labelledby="q28">
+      <div class="qmark">?</div>
+      <p class="qno" id="q28">Câu 28:</p>
+      <div class="question-box"><div class="question">Một người có 4 viên đạn. Người đó bắn lần lượt từng viên vào bia cho đến khi hết đạn, xác suất bắn trúng mỗi viên là 0,6. Gọi X là số viên đạn bắn trúng bia. Tính xác suất p(X=4)</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices28">
+        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>0,1296</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,3296</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,4496</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,5296</button>
+      </div>
+      <div class="status" id="status28"></div>
+
+      <div class="solution-box" id="sol28" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 29 ========= -->
+    <section class="card" role="group" aria-labelledby="q29">
+      <div class="qmark">?</div>
+      <p class="qno" id="q29">Câu 29:</p>
+      <div class="question-box"><div class="question">Một cửa hàng bán 15 bóng đèn, trong đó có 4 bóng hỏng. Một người chọn mua ngẫu nhiên 6 bóng đèn từ cửa hàng này. Gọi X là số bóng đèn tốt người đó mua được. Tính xác suất p(X=2)</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices29">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,31099</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,11099</button>
+        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>0,01099</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,21099</button>
+      </div>
+      <div class="status" id="status29"></div>
+
+      <div class="solution-box" id="sol29" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 30 ========= -->
+    <section class="card" role="group" aria-labelledby="q30">
+      <div class="qmark">?</div>
+      <p class="qno" id="q30">Câu 30:</p>
+      <div class="question-box"><div class="question">Cho biến ngẫu nhiên rời rạc X có bảng phân phối xác suất:
+\[\begin{array}{|c|c|c|c|c|c|}
+\hline
+X&amp;  -1&amp;  0 &amp; 1 &amp; 3 &amp;5 \\
+\hline
+\mathrm{p}(X=x_i)&amp;   0{,}3 &amp; 0{,}1 &amp;  0{,}1 &amp; 0{,}2 &amp; 0{,}3  \\
+\hline
+\end{array}\]
+Tính xác suất \(P(X&lt;1)\)</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices30">
+        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>\(P(X&lt;1) = 0{,}4\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(P(X&lt;1) = 0{,}1\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(P(X&lt;1) = 0{,}2\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(P(X&lt;1) = 0{,}3\)</button>
+      </div>
+      <div class="status" id="status30"></div>
+
+      <div class="solution-box" id="sol30" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 31 ========= -->
+    <section class="card" role="group" aria-labelledby="q31">
+      <div class="qmark">?</div>
+      <p class="qno" id="q31">Câu 31:</p>
+      <div class="question-box"><div class="question">Cho biến ngẫu nhiên rời rạc X có bảng phân phối xác suất:
+\[\begin{array}{|c|c|c|c|c|c|}
+\hline
+X&amp;  -1&amp;  0 &amp; 1 &amp; 3 &amp;5 \\
+\hline
+\mathrm{p}(X=x_i)&amp;   0{,}3 &amp; 0{,}1 &amp;  0{,}1 &amp; 0{,}2 &amp; 0{,}3  \\
+\hline
+\end{array}\]
+Tính xác suất \(P(X\leq 1)\)</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices31">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(P(X \leq 1) = 0{,}3\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(P(X\leq 1) = 0{,}4\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(P(X\leq 1) = 0{,}2\)</button>
+        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>\(P(X\leq 1) = 0{,}5\)</button>
+      </div>
+      <div class="status" id="status31"></div>
+
+      <div class="solution-box" id="sol31" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 32 ========= -->
+    <section class="card" role="group" aria-labelledby="q32">
+      <div class="qmark">?</div>
+      <p class="qno" id="q32">Câu 32:</p>
+      <div class="question-box"><div class="question">Cho biến ngẫu nhiên rời rạc X có bảng phân phối xác suất:
+\[\begin{array}{|c|c|c|c|c|c|}
+\hline
+X&amp;  -1&amp;  0 &amp; 1 &amp; 3 &amp;5 \\
+\hline
+\mathrm{p}(X=x_i)&amp;   0{,}3 &amp; 0{,}1 &amp;  0{,}1 &amp; 0{,}2 &amp; 0{,}3  \\
+\hline
+\end{array}\]
+Tính xác suất \(P(X^2 = 1)\)</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>3</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices32">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(P(X^2 = 1) = 0{,}3\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(P(X^2 = 1) = 0{,}5\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(P(X^2 = 1) = 0{,}2\)</button>
+        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>\(P(X^2 = 1) = 0{,}4\)</button>
+      </div>
+      <div class="status" id="status32"></div>
+
+      <div class="solution-box" id="sol32" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 33 ========= -->
+    <section class="card" role="group" aria-labelledby="q33">
+      <div class="qmark">?</div>
+      <p class="qno" id="q33">Câu 33:</p>
+      <div class="question-box"><div class="question">Cho biến ngẫu nhiên rời rạc X có bảng phân phối xác suất:
+\[\begin{array}{|c|c|c|c|c|c|}
+\hline
+X&amp;  -1&amp;  0 &amp; 1 &amp; 3 &amp;5 \\
+\hline
+\mathrm{p}(X=x_i)&amp;   3a &amp; a &amp;  0{,}1 &amp; 2a &amp; 0{,}3  \\
+\hline
+\end{array}\]
+Tính \(a\) và \(EX\)</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>3</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices33">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(a=0{,}1; EX = 1{,}1\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(a=0{,}1; EX = 0{,}9\)</button>
+        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>\(a=0{,}1; EX = 1{,}9\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(a=0{,}2; EX = 2{,}2\)</button>
+      </div>
+      <div class="status" id="status33"></div>
+
+      <div class="solution-box" id="sol33" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 34 ========= -->
+    <section class="card" role="group" aria-labelledby="q34">
+      <div class="qmark">?</div>
+      <p class="qno" id="q34">Câu 34:</p>
+      <div class="question-box"><div class="question">Cho biến ngẫu nhiên rời rạc X có bảng phân phối xác suất:
+\[\begin{array}{|c|c|c|c|c|c|}
+\hline
+X&amp;  -1&amp;  0 &amp; 1 &amp; 3 &amp;5 \\
+\hline
+\mathrm{p}(X=x_i)&amp;   3a &amp; a &amp;  0{,}1 &amp; 2a &amp; 0{,}3  \\
+\hline
+\end{array}\]
+Tính xác suất \(P(X^2 = 1)\)</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>3</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices34">
+        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>\(P(X^2 = 1) = 0{,}4\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(P(X^2 = 1) = 0{,}3\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(P(X^2 = 1) = 0{,}5\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(P(X^2 = 1) = 0{,}2\)</button>
+      </div>
+      <div class="status" id="status34"></div>
+
+      <div class="solution-box" id="sol34" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 35 ========= -->
+    <section class="card" role="group" aria-labelledby="q35">
+      <div class="qmark">?</div>
+      <p class="qno" id="q35">Câu 35:</p>
+      <div class="question-box"><div class="question">Một lô hàng có 100 sản phẩm chứa 5 phế phẩm. Kiểm tra ngẫu nhiên lần lượt 6 sản phẩm lô hàng (có hoàn lại). Nếu có ít nhất một phế phẩm thì không mua lô hàng. Tính xác suất lô hàng được mua.</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>3</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices35">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,05</button>
+        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>0,73509</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>Một kết quả khác</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,72909</button>
+      </div>
+      <div class="status" id="status35"></div>
+
+      <div class="solution-box" id="sol35" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 36 ========= -->
+    <section class="card" role="group" aria-labelledby="q36">
+      <div class="qmark">?</div>
+      <p class="qno" id="q36">Câu 36:</p>
+      <div class="question-box"><div class="question">Cho biến ngẫu nhiên rời rạc X có bảng phân phối xác suất:
+\[\begin{array}{|c|c|c|c|c|c|}
+\hline
+X&amp;  -1&amp;  0 &amp; 1 &amp; 3 &amp;5 \\
+\hline
+\mathrm{p}(X=x_i)&amp;   3a &amp; a &amp;  0{,}1 &amp; 2a &amp; 0{,}3  \\
+\hline
+\end{array}\]
+Tính xác suất \(P(X &gt; 1)\)</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>3</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices36">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(P(X &gt; 1) = 0{,}6\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(P(X &gt; 1) = 0{,}4\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(P(X &gt; 1) = 0{,}3\)</button>
+        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>\(P(X &gt; 1) = 0{,}5\)</button>
+      </div>
+      <div class="status" id="status36"></div>
+
+      <div class="solution-box" id="sol36" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 37 ========= -->
+    <section class="card" role="group" aria-labelledby="q37">
+      <div class="qmark">?</div>
+      <p class="qno" id="q37">Câu 37:</p>
+      <div class="question-box"><div class="question">Cho biến ngẫu nhiên \(X\in N\left(\mu = 7; \sigma^2 = 1{,}44 \right)\).
+Tính xác suất \(P\left(4 &lt; X &lt;  10\right)\).</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>3</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices37">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(1{,}0676\)</button>
+        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>\(0{,}9876\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(1{,}0076\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(1{,}0576\)</button>
+      </div>
+      <div class="status" id="status37"></div>
+
+      <div class="solution-box" id="sol37" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 38 ========= -->
+    <section class="card" role="group" aria-labelledby="q38">
+      <div class="qmark">?</div>
+      <p class="qno" id="q38">Câu 38:</p>
+      <div class="question-box"><div class="question">Cho biến ngẫu nhiên \(X\in N\left(\mu = 9; \sigma^2 = 1{,}21 \right)\).
+Tính xác suất \(P\left(8 &lt; X &lt;  11\right)\).</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>3</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices38">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(0{,}7442\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(0{,}8042\)</button>
+        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>\(0{,}7842\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(0{,}7242\)</button>
+      </div>
+      <div class="status" id="status38"></div>
+
+      <div class="solution-box" id="sol38" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 39 ========= -->
+    <section class="card" role="group" aria-labelledby="q39">
+      <div class="qmark">?</div>
+      <p class="qno" id="q39">Câu 39:</p>
+      <div class="question-box"><div class="question">Cho biến ngẫu nhiên \(X\in N\left(\mu = 2; \sigma^2 = 1{,}44 \right)\).
+Tính xác suất \(P\left(1 &lt; X &lt;  4\right)\).</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>3</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices39">
+        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>\(0{,}7492\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(0{,}6992\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(0{,}6692\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(0{,}7292\)</button>
+      </div>
+      <div class="status" id="status39"></div>
+
+      <div class="solution-box" id="sol39" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 40 ========= -->
+    <section class="card" role="group" aria-labelledby="q40">
+      <div class="qmark">?</div>
+      <p class="qno" id="q40">Câu 40:</p>
+      <div class="question-box"><div class="question">Gọi \(X\) là mức lãi (triệu đồng) so với điểm hòa vốn của một quầy bán sách trong một ngày (có thể âm nếu lỗ).
+Cho bảng phân phối xác suất của \(X\):
+\[\begin{array}{|c|c|c|c|c|}\hline
+X &amp; -3 &amp; -1 &amp; 2 &amp; 4 \\
+\hline
+\mathrm{P}(X=x_i) &amp; 0{,}22 &amp; 0{,}28 &amp; 0{,}27 &amp; 0{,}23 \\
+\hline
+\end{array}\]
+Tính kỳ vọng \(EX\) và phương sai \(Var X\).</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices40">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(EX = 0{,}92; Var X = 7{,}2496\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(EX = 0{,}92; Var X = 6{,}7496\)</button>
+        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>\(EX = 0{,}52; Var X = 6{,}7496\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(EX = 0{,}52; Var X = 7{,}2496\)</button>
+      </div>
+      <div class="status" id="status40"></div>
+
+      <div class="solution-box" id="sol40" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 41 ========= -->
+    <section class="card" role="group" aria-labelledby="q41">
+      <div class="qmark">?</div>
+      <p class="qno" id="q41">Câu 41:</p>
+      <div class="question-box"><div class="question">Gọi \(X\) là mức chênh lệch thời gian (phút) giữa giờ xe buýt thực tế đến trạm và giờ ghi trên lịch trình (âm nghĩa là đến sớm, dương nghĩa là đến trễ).
+Cho bảng phân phối xác suất của \(X\):
+\[\begin{array}{|c|c|c|c|c|}\hline
+X &amp; -5 &amp; -2 &amp; 1 &amp; 4 \\
+\hline
+\mathrm{P}(X=x_i) &amp; 0{,}18 &amp; 0{,}32 &amp; 0{,}30 &amp; 0{,}20 \\
+\hline
+\end{array}\]
+Tính kỳ vọng \(EX\) và phương sai \(Var X\).</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices41">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(EX = -0{,}04; Var X = 9{,}0864\)</button>
+        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>\(EX = -0{,}44; Var X = 9{,}0864\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = -0{,}04; Var X = 9{,}5864\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(EX = -0{,}44; Var X = 9{,}5864\)</button>
+      </div>
+      <div class="status" id="status41"></div>
+
+      <div class="solution-box" id="sol41" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 42 ========= -->
+    <section class="card" role="group" aria-labelledby="q42">
+      <div class="qmark">?</div>
+      <p class="qno" id="q42">Câu 42:</p>
+      <div class="question-box"><div class="question">Gọi \(X\) là mức chênh lệch nhiệt độ \(^\circ C\) so với nhiệt độ chuẩn \(25^\circ C\) trong một phòng thí nghiệm (âm là thấp hơn chuẩn, dương là cao hơn chuẩn).
+Cho bảng phân phối xác suất của \(X\):
+\[\begin{array}{|c|c|c|c|c|}\hline
+X &amp; -3 &amp; -1 &amp; 0 &amp; 2 \\
+\hline
+\mathrm{P}(X=x_i) &amp; 0{,}25 &amp; 0{,}30 &amp; 0{,}20 &amp; 0{,}25 \\
+\hline
+\end{array}\]
+Tính kỳ vọng \(EX\) và phương sai \(Var X\).</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices42">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(EX = -0{,}55; Var X = 3{,}7475\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(EX = -0{,}15; Var X = 3{,}2475\)</button>
+        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>\(EX = -0{,}55; Var X = 3{,}2475\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(EX = -0{,}15; Var X = 3{,}7475\)</button>
+      </div>
+      <div class="status" id="status42"></div>
+
+      <div class="solution-box" id="sol42" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 43 ========= -->
+    <section class="card" role="group" aria-labelledby="q43">
+      <div class="qmark">?</div>
+      <p class="qno" id="q43">Câu 43:</p>
+      <div class="question-box"><div class="question">Gọi \(X\) là lợi nhuận (triệu đồng) của một quán cà phê trong một ca làm việc, tính so với mức cơ sở \(0\) (có thể âm nếu lỗ).
+Cho bảng phân phối xác suất của \(X\):
+\[\begin{array}{|c|c|c|c|c|}\hline
+X &amp; -2 &amp; 0 &amp; 1 &amp; 3 \\
+\hline
+\mathrm{P}(X=x_i) &amp; 0{,}20 &amp; 0{,}35 &amp; 0{,}25 &amp; 0{,}20 \\
+\hline
+\end{array}\]
+Tính kỳ vọng \(EX\) và phương sai \(Var X\).</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices43">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(EX = 0{,}85; Var X = 2{,}6475\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(EX = 0{,}85; Var X = 3{,}1475\)</button>
+        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>\(EX = 0{,}45; Var X = 2{,}6475\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(EX = 0{,}45; Var X = 3{,}1475\)</button>
+      </div>
+      <div class="status" id="status43"></div>
+
+      <div class="solution-box" id="sol43" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 44 ========= -->
+    <section class="card" role="group" aria-labelledby="q44">
+      <div class="qmark">?</div>
+      <p class="qno" id="q44">Câu 44:</p>
+      <div class="question-box"><div class="question">Gọi \(X\) là sai số đo (mm) của độ dài một thanh thép xây dựng so với kích thước chuẩn (âm là ngắn hơn chuẩn, dương là dài hơn chuẩn).
+Cho bảng phân phối xác suất của \(X\):
+\[\begin{array}{|c|c|c|c|c|}\hline
+X &amp; -2 &amp; -1 &amp; 1 &amp; 2 \\
+\hline
+\mathrm{P}(X=x_i) &amp; 0{,}24 &amp; 0{,}26 &amp; 0{,}25 &amp; 0{,}25 \\
+\hline
+\end{array}\]
+Tính kỳ vọng \(EX\) và phương sai \(Var X\).</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices44">
+        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>\(EX = 0{,}01; Var X = 2{,}4699\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(EX = 0{,}01; Var X = 2{,}9699\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = 0{,}41; Var X = 2{,}4699\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(EX = 0{,}41; Var X = 2{,}9699\)</button>
+      </div>
+      <div class="status" id="status44"></div>
+
+      <div class="solution-box" id="sol44" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 45 ========= -->
+    <section class="card" role="group" aria-labelledby="q45">
+      <div class="qmark">?</div>
+      <p class="qno" id="q45">Câu 45:</p>
+      <div class="question-box"><div class="question">Gọi \(X\) là mức chênh lệch (nghìn đồng) giữa chi tiêu thực tế trong ngày của một sinh viên và mức chi tiêu dự kiến (âm là chi ít hơn dự kiến, dương là chi nhiều hơn).
+Cho bảng phân phối xác suất của \(X\):
+\[\begin{array}{|c|c|c|c|c|}\hline
+X &amp; -40 &amp; -10 &amp; 10 &amp; 30 \\
+\hline
+\mathrm{P}(X=x_i) &amp; 0{,}20 &amp; 0{,}30 &amp; 0{,}30 &amp; 0{,}20 \\
+\hline
+\end{array}\]
+Tính kỳ vọng \(EX\) và phương sai \(Var X\).</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices45">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(EX = -1{,}60; Var X = 556{,}0000\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(EX = -1{,}60; Var X = 556{,}5000\)</button>
+        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>\(EX = -2{,}00; Var X = 556{,}0000\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(EX = -2{,}00; Var X = 556{,}5000\)</button>
+      </div>
+      <div class="status" id="status45"></div>
+
+      <div class="solution-box" id="sol45" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 46 ========= -->
+    <section class="card" role="group" aria-labelledby="q46">
+      <div class="qmark">?</div>
+      <p class="qno" id="q46">Câu 46:</p>
+      <div class="question-box"><div class="question">Gọi \(X\) là mức chênh lệch (điểm) giữa điểm kiểm tra Toán của một học sinh và mức điểm trung bình của lớp (âm là thấp hơn trung bình, dương là cao hơn trung bình).
+Cho bảng phân phối xác suất của \(X\):
+\[\begin{array}{|c|c|c|c|c|}\hline
+X &amp; -3 &amp; -1 &amp; 1 &amp; 4 \\
+\hline
+\mathrm{P}(X=x_i) &amp; 0{,}22 &amp; 0{,}28 &amp; 0{,}25 &amp; 0{,}25 \\
+\hline
+\end{array}\]
+Tính kỳ vọng \(EX\) và phương sai \(Var X\).</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices46">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(EX = 0{,}71; Var X = 6{,}4139\)</button>
+        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>\(EX = 0{,}31; Var X = 6{,}4139\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = 0{,}31; Var X = 6{,}9139\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(EX = 0{,}71; Var X = 6{,}9139\)</button>
+      </div>
+      <div class="status" id="status46"></div>
+
+      <div class="solution-box" id="sol46" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 47 ========= -->
+    <section class="card" role="group" aria-labelledby="q47">
+      <div class="qmark">?</div>
+      <p class="qno" id="q47">Câu 47:</p>
+      <div class="question-box"><div class="question">Gọi \(X\) là mức thay đổi (nghìn đồng) trong doanh thu bán cà phê mang đi của một cửa hàng so với ngày hôm trước (âm là giảm, dương là tăng).
+Cho bảng phân phối xác suất của \(X\):
+\[\begin{array}{|c|c|c|c|c|}\hline
+X &amp; -30 &amp; -10 &amp; 10 &amp; 25 \\
+\hline
+\mathrm{P}(X=x_i) &amp; 0{,}21 &amp; 0{,}29 &amp; 0{,}30 &amp; 0{,}20 \\
+\hline
+\end{array}\]
+Tính kỳ vọng \(EX\) và phương sai \(Var X\).</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices47">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(EX = -0{,}80; Var X = 372{,}0600\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(EX = -1{,}20; Var X = 372{,}0600\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = -0{,}80; Var X = 371{,}5600\)</button>
+        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>\(EX = -1{,}20; Var X = 371{,}5600\)</button>
+      </div>
+      <div class="status" id="status47"></div>
+
+      <div class="solution-box" id="sol47" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 48 ========= -->
+    <section class="card" role="group" aria-labelledby="q48">
+      <div class="qmark">?</div>
+      <p class="qno" id="q48">Câu 48:</p>
+      <div class="question-box"><div class="question">Gọi \(X\) là độ lệch (dm) so với quỹ đạo dự kiến của một robot di chuyển trong kho hàng (âm là lệch sang trái, dương là lệch sang phải).
+Cho bảng phân phối xác suất của \(X\):
+\[\begin{array}{|c|c|c|c|c|}\hline
+X &amp; -2 &amp; -0{,}5 &amp; 0{,}5 &amp; 2 \\
+\hline
+\mathrm{P}(X=x_i) &amp; 0{,}26 &amp; 0{,}24 &amp; 0{,}25 &amp; 0{,}25 \\
+\hline
+\end{array}\]
+Tính kỳ vọng \(EX\) và phương sai \(Var X\).</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices48">
+        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>\(EX = -0{,}01; Var X = 2{,}5299\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(EX = 0{,}39; Var X = 2{,}1623\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = 0{,}39; Var X = 2{,}6623\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(EX = -0{,}02; Var X = 2{,}6623\)</button>
+      </div>
+      <div class="status" id="status48"></div>
+
+      <div class="solution-box" id="sol48" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 49 ========= -->
+    <section class="card" role="group" aria-labelledby="q49">
+      <div class="qmark">?</div>
+      <p class="qno" id="q49">Câu 49:</p>
+      <div class="question-box"><div class="question">Một lô hàng có 120 linh kiện, trong đó có 15 linh kiện lỗi, còn lại đạt chất lượng. Rút ngẫu nhiên 8 sản phẩm. Tính xác suất để rút được ít nhất 7 sản phẩm tốt.</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices49">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,9</button>
+        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>0,738</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,84</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,66</button>
+      </div>
+      <div class="status" id="status49"></div>
+
+      <div class="solution-box" id="sol49" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 50 ========= -->
+    <section class="card" role="group" aria-labelledby="q50">
+      <div class="qmark">?</div>
+      <p class="qno" id="q50">Câu 50:</p>
+      <div class="question-box"><div class="question">Trong kho có 200 bóng đèn, gồm 50 bóng bị hỏng và số còn lại tốt. Rút ngẫu nhiên 5 sản phẩm. Tính xác suất để rút được ít nhất 2 sản phẩm tốt.</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices50">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>1,0</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,3995</button>
+        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>0,98554</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,83554</button>
+      </div>
+      <div class="status" id="status50"></div>
+
+      <div class="solution-box" id="sol50" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 51 ========= -->
+    <section class="card" role="group" aria-labelledby="q51">
+      <div class="qmark">?</div>
+      <p class="qno" id="q51">Câu 51:</p>
+      <div class="question-box"><div class="question">Trong 150 sản phẩm điện tử có 30 sản phẩm lỗi. Rút ngẫu nhiên 7 sản phẩm. Tính xác suất để rút được ít nhất 6 sản phẩm tốt.</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices51">
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,66485</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,82012</button>
+        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>0,57485</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>1,0</button>
+      </div>
+      <div class="status" id="status51"></div>
+
+      <div class="solution-box" id="sol51" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 52 ========= -->
+    <section class="card" role="group" aria-labelledby="q52">
+      <div class="qmark">?</div>
+      <p class="qno" id="q52">Câu 52:</p>
+      <div class="question-box"><div class="question">Một lô gồm 90 túi gạo, trong đó 12 túi không đạt chuẩn. Rút ngẫu nhiên 6 sản phẩm. Tính xác suất để rút được ít nhất 6 sản phẩm tốt.</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices52">
+        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>0,41254</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,66254</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,84990</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,55254</button>
+      </div>
+      <div class="status" id="status52"></div>
+
+      <div class="solution-box" id="sol52" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+    <!-- ========= CÂU 53 ========= -->
+    <section class="card" role="group" aria-labelledby="q53">
+      <div class="qmark">?</div>
+      <p class="qno" id="q53">Câu 53:</p>
+      <div class="question-box"><div class="question">Một kho chứa 160 hộp sữa, trong đó 20 hộp quá hạn. Rút ngẫu nhiên 9 sản phẩm. Tính xác suất để rút được ít nhất 8 sản phẩm tốt.</div></div>
+
+      <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
+      <div class="choices" id="choices53">
+        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>0,68729</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,72968</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,77777</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,84830</button>
+      </div>
+      <div class="status" id="status53"></div>
+
+      <div class="solution-box" id="sol53" hidden>
+        <div class="question-box"><div class="question">Lời giải sẽ được cập nhật ở các phiên bản sau</div></div>
+      </div>
+
+    </section>
+
+
+  <!-- ========= CSS nhỏ cho khoảng cách (dùng chung, không đụng màu sắc theme) ========= -->
+  <style>
+    .solution-box { margin-top: 8px; }
+    .solution-toggle { margin-top: 6px; }
+  </style>
+
+  <!-- ========= JS hành vi: chọn đáp án + nút Hiện/Ẩn lời giải ========= -->
+  <script>
+  (function(){
+    function ensureToggleButton(card, statusEl){
+      // Nếu đã có nút => trả về luôn
+      let btn = card.querySelector('.solution-toggle');
+      if (btn) return btn;
+
+      // Tạo nút toggle ẩn mặc định; chỉ hiển thị sau khi người dùng chọn đáp án
+      btn = document.createElement('button');
+      btn.type = 'button';
+      // Thêm cả 'meta' để kế thừa style .meta của từng theme
+      btn.className = 'solution-toggle meta';
+      btn.textContent = 'Hiện lời giải';
+      btn.setAttribute('hidden', 'hidden');
+
+      // Thêm sau .status (nếu .status là con trực tiếp) hoặc chèn cuối card
+      if (statusEl && statusEl.parentNode === card) {
+        statusEl.insertAdjacentElement('afterend', btn);
+      } else {
+        card.appendChild(btn);
+      }
+
+      // Gắn sự kiện toggle
+      btn.addEventListener('click', function(){
+        const sol = card.querySelector('.solution-box');
+        if (!sol) return;
+        const isHidden = sol.hasAttribute('hidden');
+        if (isHidden) {
+          sol.removeAttribute('hidden');
+          btn.textContent = 'Ẩn lời giải';
+          try{
+            if (window.MathJax && MathJax.typesetPromise) {
+              MathJax.typesetPromise([sol]);
+            }
+          }catch(e){ console.warn(e); }
+        } else {
+          sol.setAttribute('hidden', 'hidden');
+          btn.textContent = 'Hiện lời giải';
+        }
+      });
+
+      return btn;
+    }
+
+    function initCard(card){
+      if (!card || card.dataset.inited === "1") return;
+      const group  = card.querySelector('.choices');
+      const status = card.querySelector('.status');
+      if (!group || !status) return;
+
+      const buttons = Array.from(group.querySelectorAll('.choice'));
+      if (!buttons.length) return;
+
+      // Chuẩn bị sẵn nút toggle (ẩn), sẽ hiển thị sau khi chọn đáp án
+      const toggleBtn = ensureToggleButton(card, status);
+
+      function lock(){ buttons.forEach(b => b.classList.add('disabled')); }
+
+      function reveal(clicked){
+        const correctBtn   = buttons.find(b => b.dataset.correct === 'true');
+        const correctLabel = correctBtn?.dataset.label || '?';
+
+        buttons.forEach(b=>{
+          (b.dataset.correct === 'true') ? b.classList.add('correct')
+                                         : b.classList.add('wrong');
+        });
+
+        const ans = clicked.dataset.label;
+        status.innerHTML = (clicked.dataset.correct === 'true')
+          ? `✅ Đáp án ${ans} là Chính xác! <small>Bạn đã chọn đáp án đúng. Điểm: 1.</small>`
+          : `❌ Đáp án ${ans} là Chưa đúng. <small>Đáp án đúng là <b>${correctLabel}</b>. Điểm: 0</small>`;
+
+        // Hiện nút toggle lời giải (nếu card có solution-box)
+        const sol = card.querySelector('.solution-box');
+        if (sol && toggleBtn) {
+          toggleBtn.removeAttribute('hidden'); // cho phép bấm hiện/ẩn
+          // Mặc định: vẫn ẩn lời giải cho tới khi người dùng bấm
+          sol.setAttribute('hidden', 'hidden');
+          toggleBtn.textContent = 'Hiện lời giải';
+        }
+
+        // Render lại MathJax nếu status có LaTeX
+        if (window.MathJax && MathJax.typesetPromise) {
+          MathJax.typesetPromise([status]).catch(function(err){
+            console.error("MathJax re-typeset error:", err);
+          });
+        }
+      }
+
+      group.addEventListener('click', function(e){
+        const btn = e.target.closest('.choice');
+        if (!btn || !group.contains(btn)) return;
+        if (buttons.some(b => b.classList.contains('correct') || b.classList.contains('wrong'))) return;
+        reveal(btn);
+        lock();
+      });
+
+      card.dataset.inited = "1";
+    }
+
+    function boot(){
+      document.querySelectorAll('.card[role="group"]').forEach(initCard);
+    }
+
+    if (document.readyState !== 'loading') boot();
+    else window.addEventListener('DOMContentLoaded', boot);
+
+    // Quan sát khi nội dung được chèn muộn
+    const mo = new MutationObserver((muts)=>{
+      muts.forEach(m=>{
+        m.addedNodes && m.addedNodes.forEach(node=>{
+          if (!(node instanceof Element)) return;
+          if (node.matches && node.matches('.card[role="group"]')) initCard(node);
+          node.querySelectorAll && node.querySelectorAll('.card[role="group"]').forEach(initCard);
+        });
+      });
+    });
+    try { mo.observe(document.documentElement || document.body, {childList:true, subtree:true}); }
+    catch(e) { console.warn('MutationObserver not started:', e); }
+  })();
+  </script>
+
+  <!-- nút lên đầu trang -->
+  <a href="#" class="to-top" aria-label="Lên đầu trang">↑</a>
+
+  </div>
+</body>
+</html>
