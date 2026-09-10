@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Bộ câu hỏi trắc nghiệm — 2025</title>
+  <title>CÂU HỎI TRẮC NGHIỆM ÔN TẬP XÁC SUẤT CĂN BẢN</title>
 
   <!-- ========= MATHJAX ========= -->
   <script>
@@ -15,25 +15,22 @@
   <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
   <!-- ========= HẾT MATHJAX ========= -->
 
-  <!-- ========= INLINE CSS (Glassmorphism theme) ========= -->
+  <!-- ========= INLINE CSS (Dark Blue Glow theme) ========= -->
   <style>
     :root{
-      /* Nền gradient đa sắc + “kính” trong suốt */
-      --bg1:#0ea5e9;    /* cyan */
-      --bg2:#7c3aed;    /* purple */
-      --bg3:#22c55e;    /* green accent */
-      --glass:rgba(255,255,255,.16);
-      --glass-strong:rgba(255,255,255,.22);
-      --glass-stroke:rgba(255,255,255,.35);
-      --glow:0 8px 30px rgba(0,0,0,.20), 0 0 30px rgba(255,255,255,.06);
-      --text:#f8fafc;
-      --muted:#e2e8f0;
-      --pill:rgba(255,255,255,.20);
-      --pill-stroke:rgba(255,255,255,.45);
-      --brand:#22d3ee;         /* cyan sáng */
-      --brand-soft:#a78bfa;    /* tím nhạt */
-      --accent:#38bdf8;        /* cyan nhạt */
-      --radius:18px;
+      --bg:#041641;            /* nền xanh đậm */
+      --card:#0a2a78;          /* card gradient start */
+      --card2:#0d2f85;         /* card gradient end */
+      --brand:#3aa0ff;         /* màu thương hiệu (cyan lam) */
+      --brand-soft:#60a5fa;    /* lam nhạt glow */
+      --pill:#0b1f5a;          /* thanh đáp án tối */
+      --text:#e7f2ff;          /* chữ sáng */
+      --muted:#9ec4ff;         /* chữ phụ */
+      --shadow:0 10px 30px rgba(0,0,0,.55);
+      --radius:16px;
+      --ring:rgba(108,156,255,.25);
+      --right:#14a34a;         /* xanh lá đậm (viền/nhấn đúng) */
+      --wrong:#c52828;         /* đỏ đậm (viền/nhấn sai) */
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -41,97 +38,77 @@
       margin:0;
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
       color:var(--text);
-      background:
-        radial-gradient(1200px 800px at 80% 10%, color-mix(in oklab, var(--bg2) 55%, #000 10%) 0%, transparent 60%),
-        radial-gradient(900px 700px at 10% 90%, color-mix(in oklab, var(--bg1) 60%, #000 10%) 0%, transparent 60%),
-        linear-gradient(135deg, color-mix(in oklab, var(--bg1) 70%, #0a0f1f 30%), color-mix(in oklab, var(--bg2) 60%, #0a0f1f 40%));
-      line-height:1.55;
-      /* fallback khi không hỗ trợ blur */
-      background-color:#0b1020;
+      background: radial-gradient(1200px 800px at 85% 10%, #0f2a7d 0%, #061a4f 45%, var(--bg) 100%);
+      line-height:1.5;
     }
 
     /* vùng chứa */
     .page{max-width:min(960px,92vw);margin:24px auto 72px;padding:0 16px}
 
-    /* top brand (kính mờ) */
-    .topbar{
-      display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;
-      background:var(--glass);
-      border:1px solid var(--glass-stroke);
-      border-radius:16px;
-      padding:10px 14px;
-      box-shadow:var(--glow);
-      -webkit-backdrop-filter:saturate(160%) blur(12px);
-      backdrop-filter:saturate(160%) blur(12px);
-    }
-    .brand{display:inline-flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.02em}
+    /* top brand */
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+    .brand{display:inline-flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#b8d8ff}
     .brand-badge{
-      width:36px;height:36px;border-radius:12px;
-      background:linear-gradient(180deg,var(--brand),var(--brand-soft));
-      display:grid;place-items:center;color:#0b1020;font-weight:900;
-      box-shadow:0 0 22px rgba(255,255,255,.2), 0 0 28px color-mix(in oklab, var(--brand) 60%, transparent);
-      border:1px solid var(--glass-stroke);
+      width:34px;height:34px;border-radius:10px;
+      background:linear-gradient(180deg,var(--brand),#1d4ed8);
+      display:grid;place-items:center;color:#0b1436;font-weight:900;
+      box-shadow:0 0 18px rgba(58,160,255,.4);
     }
     .brand-text{font-size:18px;color:var(--text)}
-    .brand-text b{color:var(--accent)}
+    .brand-text b{color:var(--brand)}
 
-    /* card câu hỏi (glass) */
+    /* card câu hỏi */
     .card{
       position:relative;
-      background:var(--glass);
-      border-radius:var(--radius);
-      padding:22px 22px 18px;
-      box-shadow:var(--glow);
+      background:linear-gradient(180deg,var(--card),var(--card2));
+      border-radius:22px;
+      padding:24px 22px 18px;
+      box-shadow:var(--shadow), 0 0 30px rgba(0,170,255,.15);
       overflow:hidden;
-      margin-top:18px;
-      border:1px solid var(--glass-stroke);
-      -webkit-backdrop-filter:saturate(160%) blur(10px);
-      backdrop-filter:saturate(160%) blur(10px);
+      margin-top:22px;
+      border:1px solid var(--ring);
     }
     .qmark{
       position:absolute; right:12px; top:-6px;
       width:92px; aspect-ratio:1/1;
-      background:var(--glass-strong);
+      background:linear-gradient(180deg,var(--brand),var(--brand-soft));
       border-radius:18px;
       display:grid; place-items:center;
-      border:1px solid var(--glass-stroke);
+      border:6px solid rgba(99,102,241,.25);
       transform:rotate(10deg);
-      box-shadow:0 6px 20px rgba(0,0,0,.25), 0 0 26px rgba(255,255,255,.15) inset;
-      font:900 56px/1.0 ui-sans-serif, system-ui; color:#0b1020;
-      -webkit-backdrop-filter:saturate(180%) blur(12px);
-      backdrop-filter:saturate(180%) blur(12px);
+      box-shadow:0 6px 16px rgba(0,0,0,.35) inset, 0 0 24px rgba(0,170,255,.35);
+      font:900 56px/1.0 ui-sans-serif, system-ui; color:#081434;
       user-select:none;
     }
-    .qno{font-weight:900;color:#e0f2fe;margin:0 0 6px}
+    .qno{font-weight:900;color:#dbeafe;margin:0 0 6px}
 
-    /* hộp nội dung câu hỏi (kính nhẹ) */
+    /* hộp nội dung câu hỏi */
     .question-box{
-      background:var(--glass-strong); color:var(--text);
+      background:rgba(13,31,89,.6); color:var(--text);
       border-radius:14px; padding:12px 14px; margin:8px 0 12px;
-      border:1px solid var(--glass-stroke);
-      -webkit-backdrop-filter:saturate(160%) blur(8px);
-      backdrop-filter:saturate(160%) blur(8px);
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.14);
+      border:1px solid rgba(99,102,241,.18);
+      backdrop-filter:saturate(120%) blur(3px);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
     }
     .question-box .question{
       margin:0;
-      color:#f8fafc;
+      color:#f0f7ff;
       font-weight:700;
       font-size:18px;
-      text-shadow:0 0 10px rgba(255,255,255,.08);
+      text-shadow:0 0 8px rgba(90,150,255,.18);
     }
 
-    .question{color:#f8fafc;margin:6px 0 12px;font-weight:800;font-size:22px}
-    /* Gộp style cho .meta và nút Hiện/Ẩn lời giải (.solution-toggle) */
+    .question{color:#f0f7ff;margin:6px 0 12px;font-weight:800;font-size:22px}
+    /* Dùng chung style cho .meta và .solution-toggle (nút Hiện/Ẩn lời giải) */
     .meta, .solution-toggle{
-      font-size:13px;color:#e2e8f0;background:rgba(14,165,233,.20);
-      border:1px solid rgba(125,211,252,.45);
+      font-size:13px;color:#cfe5ff;background:rgba(37,99,235,.25);
+      border:1px solid rgba(59,130,246,.35);
       border-radius:10px;padding:6px 10px;display:inline-block;margin:6px 0 12px
     }
-    .meta b{color:#cffafe}
+    .meta b{color:#e0f2fe}
     .solution-toggle{border:0;cursor:pointer;font-weight:700}
     .solution-toggle:hover{filter:brightness(1.08)}
-    .solution-toggle[hidden]{display:none !important;} /* ẩn trước khi chọn đáp án */
+    .solution-toggle[hidden]{display:none !important;}  /* đảm bảo ẩn trước khi chọn đáp án */
     .solution-box{margin-top:8px}
 
     /* nhóm đáp án */
@@ -139,53 +116,65 @@
     .choice{
       width:100%;
       border:0; cursor:pointer; text-align:left;
-      background:var(--pill); color:var(--text);
+      background:linear-gradient(180deg,#0e3a9b,#0a2e86 65%, #0a2a7a); /* nền mặc định lam tối */
+      color:#e9f4ff;
       border-radius:999px;
       padding:14px 16px 14px 64px;
       font-weight:700; font-size:16px;
       position:relative;
-      box-shadow:0 2px 0 rgba(0,0,0,.15), 0 6px 20px rgba(0,0,0,.12);
-      border:1px solid var(--pill-stroke);
-      transition:transform .05s ease, box-shadow .2s ease, opacity .15s ease, filter .2s ease;
-      -webkit-backdrop-filter:saturate(160%) blur(8px);
-      backdrop-filter:saturate(160%) blur(8px);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.08), 0 0 20px rgba(0,170,255,.15);
+      transition:transform .05s ease, box-shadow .2s ease, opacity .15s ease, filter .2s ease, background .2s ease;
     }
-    .choice:hover{transform:translateY(-1px); box-shadow:0 10px 28px rgba(0,0,0,.22)}
+    .choice:hover{transform:translateY(-1px); box-shadow:0 6px 18px rgba(0,0,0,.35), 0 0 26px rgba(0,170,255,.22)}
     .choice:active{transform:translateY(1px)}
     .choice .bullet{
       position:absolute; left:12px; top:50%; translate:0 -50%;
       width:38px; height:38px; border-radius:50%;
       display:grid; place-items:center;
-      background:linear-gradient(180deg,var(--brand),var(--brand-soft));
-      color:#0b1020; font-weight:900; text-transform:lowercase;
-      border:1px solid var(--glass-stroke);
-      box-shadow:0 2px 0 rgba(0,0,0,.22) inset, 0 0 16px rgba(255,255,255,.18);
+      background:linear-gradient(180deg,var(--brand),#2563eb);
+      color:#0b1436; font-weight:900; text-transform:lowercase;
+      border:3px solid rgba(125,211,252,.5);
+      box-shadow:0 2px 0 rgba(0,0,0,.22) inset, 0 0 16px rgba(0,170,255,.35);
     }
-    .choice.correct{outline:3px solid #22c55e}
-    .choice.wrong{outline:3px solid #ef4444}
+
+    /* Đáp án đúng: đổi nền xanh lá (gradient), chữ trắng, thêm glow xanh */
+    .choice.correct{
+      background:linear-gradient(180deg,#22c55e,#16a34a);
+      color:#ffffff;
+      outline:none;
+      box-shadow:0 0 16px rgba(34,197,94,.55);
+      filter:none; /* bỏ các filter saturate/drop-shadow trước đó để màu nền mới rõ ràng */
+    }
+
+    /* Đáp án sai: đổi nền đỏ (gradient), chữ trắng, thêm glow đỏ */
+    .choice.wrong{
+      background:linear-gradient(180deg,#ef4444,#b91c1c);
+      color:#ffffff;
+      outline:none;
+      box-shadow:0 0 16px rgba(220,38,38,.55);
+      filter:none;
+    }
+
     .choice.disabled{pointer-events:none;opacity:.97}
 
-    .status{margin-top:12px;min-height:22px;font-weight:700;color:#f1f5f9}
-    .status small{font-weight:500;color:#e2e8f0}
+    .status{margin-top:12px;min-height:22px;font-weight:700;color:#eef6ff}
+    .status small{font-weight:500;color:#cfe5ff}
 
-    /* nút lên đầu trang (kính) */
+    /* nút lên đầu trang */
     .to-top{
       position:fixed; right:14px; bottom:14px; z-index:20;
-      width:42px; height:42px; border-radius:12px;
+      width:42px; height:42px; border-radius:10px;
       display:grid; place-items:center;
-      background:var(--glass); color:#0b1020; text-decoration:none;
-      font-weight:900; box-shadow:var(--glow);
-      border:1px solid var(--glass-stroke);
-      -webkit-backdrop-filter:saturate(160%) blur(10px);
-      backdrop-filter:saturate(160%) blur(10px);
+      background:linear-gradient(180deg,var(--brand),#22d3ee); color:#0b1436; text-decoration:none;
+      font-weight:900; box-shadow:0 8px 22px rgba(0,0,0,.6), 0 0 22px rgba(0,170,255,.35);
     }
 
-    /* Responsive tiers */
+    /* responsive */
     @media (max-width:600px){
       .question-box .question{font-size:16px}
       .page{margin:16px auto 56px;padding:0 12px}
       .brand-text{font-size:16px}
-      .card{padding:18px 16px 14px;border-radius:16px}
+      .card{padding:18px 16px 14px;border-radius:18px}
       .question{font-size:18px;margin-bottom:8px}
       .choice{padding:12px 14px 12px 56px;font-size:15px}
       .choice .bullet{width:34px;height:34px;left:10px}
@@ -221,13 +210,13 @@
   <div class="page">
     <div class="topbar" aria-label="Thương hiệu">
       <div class="brand">
-        <span class="brand-badge">AI</span>
-        <span class="brand-text"><b>BẠN</b>ĐÚNG BAO NHIÊU CÂU</span>
+        <span class="brand-badge">BẠN</span>
+        <span class="brand-text"><b> ĐÚNG</b>  BAO NHIÊU CÂU</span>
       </div>
-      <span style="color:#e2e8f0;font-size:13px">Nguyễn Đức Ánh</span>
+      <span style="color:#9ec4ff;font-size:13px">Nguyễn Đức Ánh</span>
     </div>
 
-    <div class="brand"><span class="brand-badge">?</span> <span class="brand-text">MỘT SỐ CÂU HỎI TRẮC NGHIỆM</span></div>
+    <div class="brand"><span class="brand-badge">?</span> <span class="brand-text">CÂU HỎI TRẮC NGHIỆM ÔN TẬP XÁC SUẤT CĂN BẢN</span></div>
 
     <!-- ========= CÂU 1 ========= -->
     <section class="card" role="group" aria-labelledby="q1">
@@ -250,10 +239,10 @@ Tính kỳ vọng \(EX\) và phương sai \(Var X\).</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices1">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(EX = -0{,}14; Var X= 5{,}6644\)</button>
-        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(EX = -0{,}14; Var X= 6{,}0644\)</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = -0{,}34; Var X= 6{,}0644\)</button>
-        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>\(EX = -0{,}34; Var X= 5{,}6644\)</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(EX = -0{,}34; Var X= 6{,}0644\)</button>
+        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>\(EX = -0{,}34; Var X= 5{,}6644\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = -0{,}14; Var X= 6{,}0644\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(EX = -0{,}14; Var X= 5{,}6644\)</button>
       </div>
       <div class="status" id="status1"></div>
 
@@ -285,10 +274,10 @@ Tính xác suất \(P\left(X=8\right)\)</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices2">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(0{,}17\)</button>
-        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(0{,}09\)</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(0{,}09\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(0{,}11\)</button>
         <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>\(0{,}16\)</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(0{,}11\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(0{,}17\)</button>
       </div>
       <div class="status" id="status2"></div>
 
@@ -321,9 +310,9 @@ Tính xác suất \(P\left(X=12\right)\)</div></div>
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices3">
         <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(0{,}13\)</button>
-        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(0{,}22\)</button>
+        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>\(0{,}16\)</button>
         <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(0{,}14\)</button>
-        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>\(0{,}16\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(0{,}22\)</button>
       </div>
       <div class="status" id="status3"></div>
 
@@ -341,10 +330,10 @@ Tính xác suất \(P\left(X=12\right)\)</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices4">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,0952</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,2894</button>
         <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>0,4762</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,0476</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,2894</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,0952</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,0476</button>
       </div>
       <div class="status" id="status4"></div>
 
@@ -362,10 +351,10 @@ Tính xác suất \(P\left(X=12\right)\)</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices5">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,36705</button>
-        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,20428</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,30705</button>
-        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>0,27428</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,20428</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,36705</button>
+        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>0,27428</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,30705</button>
       </div>
       <div class="status" id="status5"></div>
 
@@ -383,10 +372,10 @@ Tính xác suất \(P\left(X=12\right)\)</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices6">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,290</button>
-        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>0,210</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,940</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,060</button>
+        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>0,210</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,060</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,290</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,940</button>
       </div>
       <div class="status" id="status6"></div>
 
@@ -406,8 +395,8 @@ Tính xác suất \(P\left(X=12\right)\)</div></div>
       <div class="choices" id="choices7">
         <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,25209</button>
         <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,65542</button>
-        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>0,01284</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,34458</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,34458</button>
+        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>0,01284</button>
       </div>
       <div class="status" id="status7"></div>
 
@@ -425,10 +414,10 @@ Tính xác suất \(P\left(X=12\right)\)</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices8">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,43350</button>
-        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>0,00246</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,56650</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,16364</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,56650</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,16364</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,43350</button>
+        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>0,00246</button>
       </div>
       <div class="status" id="status8"></div>
 
@@ -447,10 +436,10 @@ Tính P(X=1)</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices9">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(\dfrac{1}{3}\)</button>
-        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>\(\dfrac{8}{{15}}\)</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(\dfrac{2}{{15}}\)</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(\dfrac{1}{{15}}\)</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(\dfrac{2}{{15}}\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(\dfrac{1}{{15}}\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(\dfrac{1}{3}\)</button>
+        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>\(\dfrac{8}{{15}}\)</button>
       </div>
       <div class="status" id="status9"></div>
 
@@ -468,10 +457,10 @@ Tính P(X=1)</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices10">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>1</button>
-        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,2</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,3</button>
-        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>0,5</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,3</button>
+        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>0,5</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>1</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,2</button>
       </div>
       <div class="status" id="status10"></div>
 
@@ -489,10 +478,10 @@ Tính P(X=1)</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices11">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,66667</button>
-        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>1</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,50000</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,66667</button>
         <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>0,33333</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,50000</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>1</button>
       </div>
       <div class="status" id="status11"></div>
 
@@ -510,9 +499,9 @@ Tính P(X=1)</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices12">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>2</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,4</button>
         <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>0,6</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,4</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>2</button>
         <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>3</button>
       </div>
       <div class="status" id="status12"></div>
@@ -531,10 +520,10 @@ Tính P(X=1)</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices13">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,87847</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,89847</button>
         <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,97847</button>
         <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>0,77847</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,89847</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,87847</button>
       </div>
       <div class="status" id="status13"></div>
 
@@ -553,9 +542,9 @@ Tính P(X=1)</div></div>
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices14">
         <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,745</button>
-        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>0,940</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,350</button>
         <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,403</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,350</button>
+        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>0,940</button>
       </div>
       <div class="status" id="status14"></div>
 
@@ -573,10 +562,10 @@ Tính P(X=1)</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices15">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,81890</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,73892</button>
         <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,79896</button>
         <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>0,99893</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,73892</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,81890</button>
       </div>
       <div class="status" id="status15"></div>
 
@@ -595,8 +584,8 @@ Tính P(X=1)</div></div>
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices16">
         <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>0,57143</button>
-        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,34561</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,24146</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,24146</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,34561</button>
         <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,66143</button>
       </div>
       <div class="status" id="status16"></div>
@@ -624,10 +613,10 @@ Giá trị của
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices17">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,6</button>
-        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,7</button>
-        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>0,8</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,9</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,7</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,6</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,9</button>
+        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>0,8</button>
       </div>
       <div class="status" id="status17"></div>
 
@@ -653,10 +642,10 @@ Tính \(\mathrm{p}\left(X^2=1\right)\)</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices18">
-        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>\(\mathrm{p}\left(X^2=1\right)=0{,}4\)</button>
-        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(\mathrm{p}\left(X^2=1\right)=0{,}2\)</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(\mathrm{p}\left(X^2=1\right)=0{,}1\)</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(\mathrm{p}\left(X^2=1\right)=0{,}3\)</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(\mathrm{p}\left(X^2=1\right)=0{,}2\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(\mathrm{p}\left(X^2=1\right)=0{,}1\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(\mathrm{p}\left(X^2=1\right)=0{,}3\)</button>
+        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>\(\mathrm{p}\left(X^2=1\right)=0{,}4\)</button>
       </div>
       <div class="status" id="status18"></div>
 
@@ -674,10 +663,10 @@ Tính \(\mathrm{p}\left(X^2=1\right)\)</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices19">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>650 000</button>
-        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>500 000</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>520 000</button>
-        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>480 000</button>
+        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>480 000</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>520 000</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>650 000</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>500 000</button>
       </div>
       <div class="status" id="status19"></div>
 
@@ -704,9 +693,9 @@ Tìm giá trị của tham số   \(a, b\) để \(EX=3{,}15\).</div></div>
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices20">
         <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>\(a=0{,}25; b = 0{,}15\)</button>
-        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(a=0{,}15; b = 0{,}25\)</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(a=0{,}05; b = 0{,}25\)</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(a=0{,}05; b = 0{,}15\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(a=0{,}05; b = 0{,}15\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(a=0{,}15; b = 0{,}25\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(a=0{,}05; b = 0{,}25\)</button>
       </div>
       <div class="status" id="status20"></div>
 
@@ -732,10 +721,10 @@ Tính kỳ vọng  \(EX\)</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices21">
-        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>\(EX = 2{,}26\)</button>
-        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(EX = 1{,}26\)</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = 2{,}56\)</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(EX = 2{,}06\)</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(EX = 2{,}56\)</button>
+        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>\(EX = 2{,}26\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = 2{,}06\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(EX = 1{,}26\)</button>
       </div>
       <div class="status" id="status21"></div>
 
@@ -753,10 +742,10 @@ Tính kỳ vọng  \(EX\)</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices22">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(EX = \dfrac{20}{3}\)</button>
-        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>\(EX = \dfrac{10}{3}\)</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = \dfrac{16}{3}\)</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(EX = \dfrac{13}{3}\)</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(EX = \dfrac{16}{3}\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(EX = \dfrac{13}{3}\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = \dfrac{20}{3}\)</button>
+        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>\(EX = \dfrac{10}{3}\)</button>
       </div>
       <div class="status" id="status22"></div>
 
@@ -774,10 +763,10 @@ Tính kỳ vọng  \(EX\)</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices23">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,115</button>
+        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>0,125</button>
         <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,145</button>
         <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,251</button>
-        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>0,125</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,115</button>
       </div>
       <div class="status" id="status23"></div>
 
@@ -804,9 +793,9 @@ Tính xác suất \(P(X=0)\)</div></div>
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices24">
         <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(P(X=0) =  0{,}16\)</button>
-        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>\(P(X=0) =  0{,}06\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(P(X=0) =  0{,}36\)</button>
         <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(P(X=0) =  0{,}26\)</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(P(X=0) =  0{,}36\)</button>
+        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>\(P(X=0) =  0{,}06\)</button>
       </div>
       <div class="status" id="status24"></div>
 
@@ -832,9 +821,9 @@ Tính xác suất \(P(X\leq 0)\)</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices25">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(P(X \leq 0) =  0{,}1\)</button>
-        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>\(P(X \leq 0) =  0{,}3\)</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(P(X \leq 0) =  0{,}13\)</button>
+        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>\(P(X \leq 0) =  0{,}3\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(P(X \leq 0) =  0{,}13\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(P(X \leq 0) =  0{,}1\)</button>
         <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(P(X \leq 0) =  0{,}06\)</button>
       </div>
       <div class="status" id="status25"></div>
@@ -861,10 +850,10 @@ Tính xác suất \(P(X^2=1)\)</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices26">
-        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>\(P(X^2=1) = 0{,}34\)</button>
-        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(P(X^2=1) = 0{,}24\)</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(P(X^2=1) = 0{,}06\)</button>
+        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>\(P(X^2=1) = 0{,}34\)</button>
         <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(P(X^2=1) = 0{,}64\)</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(P(X^2=1) = 0{,}06\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(P(X^2=1) = 0{,}24\)</button>
       </div>
       <div class="status" id="status26"></div>
 
@@ -883,9 +872,9 @@ Tính xác suất \(P(X^2=1)\)</div></div>
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices27">
         <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>\(EX = \dfrac{5}{2}\)</button>
-        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(EX = \dfrac{5}{3}\)</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = \dfrac{10}{3}\)</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(EX = \dfrac{4}{3}\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(EX = \dfrac{4}{3}\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = \dfrac{5}{3}\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(EX = \dfrac{10}{3}\)</button>
       </div>
       <div class="status" id="status27"></div>
 
@@ -903,10 +892,10 @@ Tính xác suất \(P(X^2=1)\)</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices28">
-        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>0,1296</button>
-        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,3296</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,4496</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,5296</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,3296</button>
+        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>0,1296</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,5296</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,4496</button>
       </div>
       <div class="status" id="status28"></div>
 
@@ -924,10 +913,10 @@ Tính xác suất \(P(X^2=1)\)</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices29">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,31099</button>
-        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,11099</button>
-        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>0,01099</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,21099</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,11099</button>
+        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>0,01099</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,21099</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,31099</button>
       </div>
       <div class="status" id="status29"></div>
 
@@ -955,8 +944,8 @@ Tính xác suất \(P(X&lt;1)\)</div></div>
       <div class="choices" id="choices30">
         <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>\(P(X&lt;1) = 0{,}4\)</button>
         <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(P(X&lt;1) = 0{,}1\)</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(P(X&lt;1) = 0{,}2\)</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(P(X&lt;1) = 0{,}3\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(P(X&lt;1) = 0{,}3\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(P(X&lt;1) = 0{,}2\)</button>
       </div>
       <div class="status" id="status30"></div>
 
@@ -982,9 +971,9 @@ Tính xác suất \(P(X\leq 1)\)</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices31">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(P(X \leq 1) = 0{,}3\)</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(P(X\leq 1) = 0{,}2\)</button>
         <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(P(X\leq 1) = 0{,}4\)</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(P(X\leq 1) = 0{,}2\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(P(X \leq 1) = 0{,}3\)</button>
         <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>\(P(X\leq 1) = 0{,}5\)</button>
       </div>
       <div class="status" id="status31"></div>
@@ -1013,8 +1002,8 @@ Tính xác suất \(P(X^2 = 1)\)</div></div>
       <div class="choices" id="choices32">
         <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(P(X^2 = 1) = 0{,}3\)</button>
         <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(P(X^2 = 1) = 0{,}5\)</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(P(X^2 = 1) = 0{,}2\)</button>
-        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>\(P(X^2 = 1) = 0{,}4\)</button>
+        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>\(P(X^2 = 1) = 0{,}4\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(P(X^2 = 1) = 0{,}2\)</button>
       </div>
       <div class="status" id="status32"></div>
 
@@ -1040,10 +1029,10 @@ Tính \(a\) và \(EX\)</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>3</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices33">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(a=0{,}1; EX = 1{,}1\)</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(a=0{,}2; EX = 2{,}2\)</button>
         <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(a=0{,}1; EX = 0{,}9\)</button>
-        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>\(a=0{,}1; EX = 1{,}9\)</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(a=0{,}2; EX = 2{,}2\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(a=0{,}1; EX = 1{,}1\)</button>
+        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>\(a=0{,}1; EX = 1{,}9\)</button>
       </div>
       <div class="status" id="status33"></div>
 
@@ -1069,10 +1058,10 @@ Tính xác suất \(P(X^2 = 1)\)</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>3</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices34">
-        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>\(P(X^2 = 1) = 0{,}4\)</button>
-        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(P(X^2 = 1) = 0{,}3\)</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(P(X^2 = 1) = 0{,}3\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(P(X^2 = 1) = 0{,}2\)</button>
         <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(P(X^2 = 1) = 0{,}5\)</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(P(X^2 = 1) = 0{,}2\)</button>
+        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>\(P(X^2 = 1) = 0{,}4\)</button>
       </div>
       <div class="status" id="status34"></div>
 
@@ -1091,8 +1080,8 @@ Tính xác suất \(P(X^2 = 1)\)</div></div>
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>3</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices35">
         <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,05</button>
-        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>0,73509</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>Một kết quả khác</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>Một kết quả khác</button>
+        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>0,73509</button>
         <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,72909</button>
       </div>
       <div class="status" id="status35"></div>
@@ -1119,10 +1108,10 @@ Tính xác suất \(P(X &gt; 1)\)</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>3</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices36">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(P(X &gt; 1) = 0{,}6\)</button>
-        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(P(X &gt; 1) = 0{,}4\)</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(P(X &gt; 1) = 0{,}3\)</button>
-        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>\(P(X &gt; 1) = 0{,}5\)</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(P(X &gt; 1) = 0{,}4\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(P(X &gt; 1) = 0{,}3\)</button>
+        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>\(P(X &gt; 1) = 0{,}5\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(P(X &gt; 1) = 0{,}6\)</button>
       </div>
       <div class="status" id="status36"></div>
 
@@ -1141,10 +1130,10 @@ Tính xác suất \(P\left(4 &lt; X &lt;  10\right)\).</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>3</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices37">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(1{,}0676\)</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(1{,}0076\)</button>
         <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>\(0{,}9876\)</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(1{,}0076\)</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(1{,}0576\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(1{,}0576\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(1{,}0676\)</button>
       </div>
       <div class="status" id="status37"></div>
 
@@ -1165,8 +1154,8 @@ Tính xác suất \(P\left(8 &lt; X &lt;  11\right)\).</div></div>
       <div class="choices" id="choices38">
         <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(0{,}7442\)</button>
         <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(0{,}8042\)</button>
-        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>\(0{,}7842\)</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(0{,}7242\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(0{,}7242\)</button>
+        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>\(0{,}7842\)</button>
       </div>
       <div class="status" id="status38"></div>
 
@@ -1185,10 +1174,10 @@ Tính xác suất \(P\left(1 &lt; X &lt;  4\right)\).</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>3</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices39">
-        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>\(0{,}7492\)</button>
-        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(0{,}6992\)</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(0{,}7292\)</button>
+        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>\(0{,}7492\)</button>
         <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(0{,}6692\)</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(0{,}7292\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(0{,}6992\)</button>
       </div>
       <div class="status" id="status39"></div>
 
@@ -1216,8 +1205,8 @@ Tính kỳ vọng \(EX\) và phương sai \(Var X\).</div></div>
       <div class="choices" id="choices40">
         <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(EX = 0{,}92; Var X = 7{,}2496\)</button>
         <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(EX = 0{,}92; Var X = 6{,}7496\)</button>
-        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>\(EX = 0{,}52; Var X = 6{,}7496\)</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(EX = 0{,}52; Var X = 7{,}2496\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = 0{,}52; Var X = 7{,}2496\)</button>
+        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>\(EX = 0{,}52; Var X = 6{,}7496\)</button>
       </div>
       <div class="status" id="status40"></div>
 
@@ -1243,10 +1232,10 @@ Tính kỳ vọng \(EX\) và phương sai \(Var X\).</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices41">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(EX = -0{,}04; Var X = 9{,}0864\)</button>
-        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>\(EX = -0{,}44; Var X = 9{,}0864\)</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = -0{,}04; Var X = 9{,}5864\)</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(EX = -0{,}44; Var X = 9{,}5864\)</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(EX = -0{,}04; Var X = 9{,}5864\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(EX = -0{,}44; Var X = 9{,}5864\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = -0{,}04; Var X = 9{,}0864\)</button>
+        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>\(EX = -0{,}44; Var X = 9{,}0864\)</button>
       </div>
       <div class="status" id="status41"></div>
 
@@ -1272,10 +1261,10 @@ Tính kỳ vọng \(EX\) và phương sai \(Var X\).</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices42">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(EX = -0{,}55; Var X = 3{,}7475\)</button>
-        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(EX = -0{,}15; Var X = 3{,}2475\)</button>
-        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>\(EX = -0{,}55; Var X = 3{,}2475\)</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(EX = -0{,}15; Var X = 3{,}7475\)</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(EX = -0{,}15; Var X = 3{,}7475\)</button>
+        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>\(EX = -0{,}55; Var X = 3{,}2475\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = -0{,}55; Var X = 3{,}7475\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(EX = -0{,}15; Var X = 3{,}2475\)</button>
       </div>
       <div class="status" id="status42"></div>
 
@@ -1301,10 +1290,10 @@ Tính kỳ vọng \(EX\) và phương sai \(Var X\).</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices43">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(EX = 0{,}85; Var X = 2{,}6475\)</button>
-        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(EX = 0{,}85; Var X = 3{,}1475\)</button>
-        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>\(EX = 0{,}45; Var X = 2{,}6475\)</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(EX = 0{,}45; Var X = 3{,}1475\)</button>
+        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>\(EX = 0{,}45; Var X = 2{,}6475\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(EX = 0{,}45; Var X = 3{,}1475\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = 0{,}85; Var X = 2{,}6475\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(EX = 0{,}85; Var X = 3{,}1475\)</button>
       </div>
       <div class="status" id="status43"></div>
 
@@ -1330,9 +1319,9 @@ Tính kỳ vọng \(EX\) và phương sai \(Var X\).</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices44">
-        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>\(EX = 0{,}01; Var X = 2{,}4699\)</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(EX = 0{,}41; Var X = 2{,}4699\)</button>
         <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(EX = 0{,}01; Var X = 2{,}9699\)</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = 0{,}41; Var X = 2{,}4699\)</button>
+        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>\(EX = 0{,}01; Var X = 2{,}4699\)</button>
         <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(EX = 0{,}41; Var X = 2{,}9699\)</button>
       </div>
       <div class="status" id="status44"></div>
@@ -1359,9 +1348,9 @@ Tính kỳ vọng \(EX\) và phương sai \(Var X\).</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices45">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(EX = -1{,}60; Var X = 556{,}0000\)</button>
-        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(EX = -1{,}60; Var X = 556{,}5000\)</button>
-        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>\(EX = -2{,}00; Var X = 556{,}0000\)</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(EX = -1{,}60; Var X = 556{,}5000\)</button>
+        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>\(EX = -2{,}00; Var X = 556{,}0000\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = -1{,}60; Var X = 556{,}0000\)</button>
         <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(EX = -2{,}00; Var X = 556{,}5000\)</button>
       </div>
       <div class="status" id="status45"></div>
@@ -1388,10 +1377,10 @@ Tính kỳ vọng \(EX\) và phương sai \(Var X\).</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices46">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(EX = 0{,}71; Var X = 6{,}4139\)</button>
-        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>\(EX = 0{,}31; Var X = 6{,}4139\)</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = 0{,}31; Var X = 6{,}9139\)</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(EX = 0{,}71; Var X = 6{,}9139\)</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(EX = 0{,}31; Var X = 6{,}9139\)</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(EX = 0{,}71; Var X = 6{,}9139\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = 0{,}71; Var X = 6{,}4139\)</button>
+        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>\(EX = 0{,}31; Var X = 6{,}4139\)</button>
       </div>
       <div class="status" id="status46"></div>
 
@@ -1418,9 +1407,9 @@ Tính kỳ vọng \(EX\) và phương sai \(Var X\).</div></div>
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices47">
         <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(EX = -0{,}80; Var X = 372{,}0600\)</button>
-        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(EX = -1{,}20; Var X = 372{,}0600\)</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = -0{,}80; Var X = 371{,}5600\)</button>
-        <button class="choice" data-label="D" data-correct="true"><span class="bullet">d</span>\(EX = -1{,}20; Var X = 371{,}5600\)</button>
+        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>\(EX = -1{,}20; Var X = 371{,}5600\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = -1{,}20; Var X = 372{,}0600\)</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(EX = -0{,}80; Var X = 371{,}5600\)</button>
       </div>
       <div class="status" id="status47"></div>
 
@@ -1446,9 +1435,9 @@ Tính kỳ vọng \(EX\) và phương sai \(Var X\).</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>1</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices48">
-        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>\(EX = -0{,}01; Var X = 2{,}5299\)</button>
-        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>\(EX = 0{,}39; Var X = 2{,}1623\)</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = 0{,}39; Var X = 2{,}6623\)</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>\(EX = 0{,}39; Var X = 2{,}6623\)</button>
+        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>\(EX = -0{,}01; Var X = 2{,}5299\)</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>\(EX = 0{,}39; Var X = 2{,}1623\)</button>
         <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>\(EX = -0{,}02; Var X = 2{,}6623\)</button>
       </div>
       <div class="status" id="status48"></div>
@@ -1467,8 +1456,8 @@ Tính kỳ vọng \(EX\) và phương sai \(Var X\).</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices49">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,9</button>
-        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>0,738</button>
+        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>0,738</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,9</button>
         <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,84</button>
         <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,66</button>
       </div>
@@ -1488,10 +1477,10 @@ Tính kỳ vọng \(EX\) và phương sai \(Var X\).</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices50">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>1,0</button>
-        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,3995</button>
-        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>0,98554</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,83554</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,83554</button>
+        <button class="choice" data-label="B" data-correct="true"><span class="bullet">b</span>0,98554</button>
+        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>1,0</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,3995</button>
       </div>
       <div class="status" id="status50"></div>
 
@@ -1509,10 +1498,10 @@ Tính kỳ vọng \(EX\) và phương sai \(Var X\).</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices51">
-        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,66485</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>1,0</button>
         <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,82012</button>
         <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>0,57485</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>1,0</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,66485</button>
       </div>
       <div class="status" id="status51"></div>
 
@@ -1530,10 +1519,10 @@ Tính kỳ vọng \(EX\) và phương sai \(Var X\).</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices52">
-        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>0,41254</button>
-        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,66254</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,84990</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,55254</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,84990</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,55254</button>
+        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>0,41254</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,66254</button>
       </div>
       <div class="status" id="status52"></div>
 
@@ -1551,10 +1540,10 @@ Tính kỳ vọng \(EX\) và phương sai \(Var X\).</div></div>
 
       <div class="meta">Chuyên đề: <b>Xác suất căn bản, biến ngẫu nhiên và luật phân phối xác suất</b> &nbsp;•&nbsp; Cấp độ: <b>2</b> &nbsp;•&nbsp; Điểm: <b>1</b></div>
       <div class="choices" id="choices53">
-        <button class="choice" data-label="A" data-correct="true"><span class="bullet">a</span>0,68729</button>
-        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,72968</button>
-        <button class="choice" data-label="C" data-correct="false"><span class="bullet">c</span>0,77777</button>
-        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,84830</button>
+        <button class="choice" data-label="A" data-correct="false"><span class="bullet">a</span>0,77777</button>
+        <button class="choice" data-label="B" data-correct="false"><span class="bullet">b</span>0,84830</button>
+        <button class="choice" data-label="C" data-correct="true"><span class="bullet">c</span>0,68729</button>
+        <button class="choice" data-label="D" data-correct="false"><span class="bullet">d</span>0,72968</button>
       </div>
       <div class="status" id="status53"></div>
 
